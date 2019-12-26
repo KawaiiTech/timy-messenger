@@ -2,13 +2,13 @@ import "package:built_collection/built_collection.dart";
 import "package:built_value/built_value.dart";
 import "package:circles_app/domain/redux/ui/ui_state.dart";
 import "package:circles_app/model/calendar_entry.dart";
+import 'package:circles_app/model/channel.dart';
 import "package:circles_app/model/channel_state.dart";
 import "package:circles_app/model/group.dart";
 import "package:circles_app/model/in_app_notification.dart";
 import "package:circles_app/model/message.dart";
 import "package:circles_app/model/user.dart";
 
-// ignore: prefer_double_quotes
 part 'app_state.g.dart';
 
 /// This class holds the whole application state.
@@ -49,8 +49,33 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
   factory AppState([void Function(AppStateBuilder) updates]) = _$AppState;
 
   factory AppState.init() => AppState((a) => a
-    ..groups = MapBuilder()
+    ..user.name = "Lily"
+    ..user.uid = "uid"
+    ..user.email = "e@mail.com"
+    ..selectedGroupId = "groupid"
+    ..groups.addAll({
+      "groupid": Group((g) => g
+        ..id = "groupid"
+        ..name = "groupname"
+        ..hexColor = "#abc5f5"
+        ..abbreviation = "LL"
+        ..channels.addAll(
+          {
+            "channelid": Channel((c) => c
+              ..id = "channelid"
+              ..name = "Dogs are the best"
+              ..visibility = ChannelVisibility.OPEN
+              ..type = ChannelType.TOPIC
+              ..users.addAll([
+                ChannelUser((cu) => cu
+                  ..id = "uid"
+                  ..rsvp = RSVP.UNSET)
+              ])),
+          },
+        ))
+    })
     ..channelState = ChannelState.init().toBuilder()
+    ..channelState.selectedChannel = "channelid"
     ..messagesOnScreen = ListBuilder()
     ..groupUsers = ListBuilder()
     ..userCalendar = ListBuilder()

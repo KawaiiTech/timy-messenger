@@ -32,13 +32,13 @@ import "package:circles_app/presentation/user/user_screen.dart";
 import "package:circles_app/routes.dart";
 import "package:circles_app/theme.dart";
 import "package:circles_app/util/logger.dart";
-import "package:cloud_firestore/cloud_firestore.dart";
-import "package:firebase_auth/firebase_auth.dart";
-import "package:firebase_storage/firebase_storage.dart";
+//import "package:cloud_firestore/cloud_firestore.dart";
+//import "package:firebase_auth/firebase_auth.dart";
+//import "package:firebase_storage/firebase_storage.dart";
 import "package:flutter/material.dart";
 import "package:flutter_redux/flutter_redux.dart";
 import "package:redux/redux.dart";
-import "package:firebase_messaging/firebase_messaging.dart";
+//import "package:firebase_messaging/firebase_messaging.dart";
 import "domain/redux/user/user_actions.dart";
 
 class CirclesApp extends StatefulWidget {
@@ -53,11 +53,11 @@ class CirclesApp extends StatefulWidget {
 class _CirclesAppState extends State<CirclesApp> {
   Store<AppState> store;
   static final _navigatorKey = GlobalKey<NavigatorState>();
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  final userRepo = UserRepository(FirebaseAuth.instance, Firestore.instance);
-  final channelRepository = ChannelRepository(Firestore.instance);
-  final groupRepository = GroupRepository(Firestore.instance);
-  final calendarRepository = CalendarRepository(Firestore.instance);
+//  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+//  final userRepo = UserRepository(FirebaseAuth.instance, Firestore.instance);
+//  final channelRepository = ChannelRepository(Firestore.instance);
+//  final groupRepository = GroupRepository(Firestore.instance);
+//  final calendarRepository = CalendarRepository(Firestore.instance);
 
   @override
   void initState() {
@@ -65,58 +65,60 @@ class _CirclesAppState extends State<CirclesApp> {
     store = Store<AppState>(
       appReducer,
       initialState: AppState.init(),
-      middleware: createStoreMiddleware(
-        groupRepository,
-      )
-        ..addAll(createAuthenticationMiddleware(
-          userRepo,
-          _navigatorKey,
-        ))
-        ..addAll(createCalendarMiddleware(calendarRepository))
-        ..addAll(createUserMiddleware(userRepo))
-        ..addAll(createChannelsMiddleware(
-          channelRepository,
-          _navigatorKey,
-        ))
-        ..addAll(createMessagesMiddleware(
-          MessageRepository(Firestore.instance),
-        ))
-        ..addAll(createPushMiddleware(
-          userRepo,
-          _firebaseMessaging,
-          groupRepository,
-          channelRepository,
-        ))
-        ..addAll(createAttachmentMiddleware(
-          FileRepository(FirebaseStorage.instance),
-          ImageProcessor(),
-          userRepo,
-        )),
+//      middleware: createStoreMiddleware(
+
+//      )
     );
-    store.dispatch(VerifyAuthenticationState());
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        store.dispatch(OnPushNotificationReceivedAction(message));
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        store.dispatch(OnPushNotificationOpenAction(message));
-      },
-      onResume: (Map<String, dynamic> message) async {
-        store.dispatch(OnPushNotificationOpenAction(message));
-      },
-    );
-    _firebaseMessaging.requestNotificationPermissions(
-        const IosNotificationSettings(sound: true, badge: true, alert: true));
-    _firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings) {
-      Logger.d("Settings registered: $settings");
-    });
-    _firebaseMessaging.getToken().then((String token) {
-      assert(token != null);
-      Logger.d("Push Messaging token: $token");
-      store.dispatch(UpdateUserTokenAction(token));
-    });
   }
+//        ..addAll(createAuthenticationMiddleware(
+//          userRepo,
+//          _navigatorKey,
+//        ))
+//        ..addAll(createCalendarMiddleware(calendarRepository))
+//        ..addAll(createUserMiddleware(userRepo))
+//        ..addAll(createChannelsMiddleware(
+//          channelRepository,
+//          _navigatorKey,
+//        ))
+//        ..addAll(createMessagesMiddleware(
+//          MessageRepository(Firestore.instance),
+//        ))
+//        ..addAll(createPushMiddleware(
+//          userRepo,
+//          _firebaseMessaging,
+//          groupRepository,
+//          channelRepository,
+//        ))
+//        ..addAll(createAttachmentMiddleware(
+//          FileRepository(FirebaseStorage.instance),
+//          ImageProcessor(),
+//          userRepo,
+//        )),
+//    );
+//    store.dispatch(VerifyAuthenticationState());
+//    _firebaseMessaging.configure(
+//      onMessage: (Map<String, dynamic> message) async {
+//        store.dispatch(OnPushNotificationReceivedAction(message));
+//      },
+//      onLaunch: (Map<String, dynamic> message) async {
+//        store.dispatch(OnPushNotificationOpenAction(message));
+//      },
+//      onResume: (Map<String, dynamic> message) async {
+//        store.dispatch(OnPushNotificationOpenAction(message));
+//      },
+//    );
+//    _firebaseMessaging.requestNotificationPermissions(
+//        const IosNotificationSettings(sound: true, badge: true, alert: true));
+//    _firebaseMessaging.onIosSettingsRegistered
+//        .listen((IosNotificationSettings settings) {
+//      Logger.d("Settings registered: $settings");
+//    });
+//    _firebaseMessaging.getToken().then((String token) {
+//      assert(token != null);
+//      Logger.d("Push Messaging token: $token");
+//      store.dispatch(UpdateUserTokenAction(token));
+//    });
+//  }
 
   // Used to propagate this users current locale to our backend (which then can send localized notifications).
   _updateUserLocale(context) {

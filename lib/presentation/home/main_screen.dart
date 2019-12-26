@@ -41,7 +41,7 @@ class _MainScreenState extends State<MainScreen> {
       distinct: true,
       converter: MainScreenViewModel.fromStore,
       builder: (context, vm) {
-        if (vm.hasData) {
+//        if (vm.hasData) {
           return SlideOutScreen(
             main: HomeScreen(
               sideOpenController: _sideOpenController,
@@ -49,10 +49,10 @@ class _MainScreenState extends State<MainScreen> {
             side: _buildDetails(vm),
             sideOpenController: _sideOpenController,
           );
-        } else {
-          // TODO: Proper empty state screen
-          return Scaffold();
-        }
+//        } else {
+//           TODO: Proper empty state screen
+//          return Scaffold();
+//        }
       },
     );
   }

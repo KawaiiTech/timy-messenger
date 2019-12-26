@@ -56,10 +56,10 @@ class EmojiPicker extends StatelessWidget {
                         ),
                       ),
                       onTap: () {
-                        StoreProvider.of<AppState>(context).dispatch(EmojiReaction(
-                          _message.id,
-                          emoji,
-                        ));
+//                        StoreProvider.of<AppState>(context).dispatch(EmojiReaction(
+//                          _message.id,
+//                          emoji,
+//                        ));
                         Navigator.of(context).pop();
                       },
                     ),

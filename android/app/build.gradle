@@ -98,5 +98,5 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:2.2.0"
 }
 
-apply plugin: 'io.fabric'
-apply plugin: 'com.google.gms.google-services'  // Google Play services Gradle plugin
+//apply plugin: 'io.fabric'
+//apply plugin: 'com.google.gms.google-services'  // Google Play services Gradle plugin

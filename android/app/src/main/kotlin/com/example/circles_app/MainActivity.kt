@@ -16,11 +16,11 @@ class MainActivity : FlutterActivity() {
         super.onCreate(savedInstanceState)
         GeneratedPluginRegistrant.registerWith(this)
 
-        MethodChannel(flutterView, UPLOAD_PLATFORM).setMethodCallHandler { call, result ->
-            when (call.method) {
-                "uploadFiles" -> uploadFilesTask(call, applicationContext)
-            }
-        }
+//        MethodChannel(flutterView, UPLOAD_PLATFORM).setMethodCallHandler { call, result ->
+//            when (call.method) {
+//                "uploadFiles" -> uploadFilesTask(call, applicationContext)
+//            }
+//        }
 
         MethodChannel(flutterView, PERMISSION).setMethodCallHandler { call, result ->
             when (call.method) {

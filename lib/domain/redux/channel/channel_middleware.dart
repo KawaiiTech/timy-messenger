@@ -9,42 +9,40 @@ import "package:flutter/material.dart";
 import "package:redux/redux.dart";
 
 List<Middleware<AppState>> createChannelsMiddleware(
-  ChannelRepository channelsRepository,
+//  ChannelRepository channelsRepository,
   GlobalKey<NavigatorState> navigatorKey,
 ) {
   return [
     TypedMiddleware<AppState, SelectChannelIdAction>(
-      _selectChannelId(channelsRepository),
+      _selectChannelId(),
     ),
     TypedMiddleware<AppState, SelectChannel>(
-      _markChannelReadAndListenToChannelUpdates(channelsRepository),
+      _markChannelReadAndListenToChannelUpdates(),
     ),
     TypedMiddleware<AppState, JoinChannelAction>(
-      _joinChannel(channelsRepository),
+      _joinChannel(),
     ),
     TypedMiddleware<AppState, LeaveChannelAction>(
-      _leaveChannel(channelsRepository),
+      _leaveChannel(),
     ),
     TypedMiddleware<AppState, LoadChannels>(
-      _listenToChannels(channelsRepository),
+      _listenToChannels(),
     ),
     TypedMiddleware<AppState, CreateChannel>(
       _createChannel(
-        channelsRepository,
         navigatorKey,
       ),
     ),
     TypedMiddleware<AppState, EditChannelAction>(
       _editChannel(
-        channelsRepository,
         navigatorKey,
       ),
     ),
     TypedMiddleware<AppState, RsvpAction>(
-      _rsvp(channelsRepository),
+      _rsvp(),
     ),
     TypedMiddleware<AppState, InviteToChannelAction>(
-      _inviteToChannel(channelsRepository),
+      _inviteToChannel(),
     ),
   ];
 }
@@ -54,20 +52,20 @@ void Function(
   Store<AppState> store,
   SelectChannelIdAction action,
   NextDispatcher next,
-) _selectChannelId(ChannelRepository channelRepository) {
+) _selectChannelId() {
   return (store, action, next) {
-    channelRepository
-        .getChannel(action.groupId, action.channelId, action.userId)
-        .then((channel) {
-      store.dispatch(SelectChannel(
-          channel: channel, groupId: action.groupId, userId: action.userId));
-    }).catchError((error) {
-      Logger.e(
-        "Failed to fetch and select channel",
-        e: error,
-        s: StackTrace.current,
-      );
-    });
+//    channelRepository
+//        .getChannel(action.groupId, action.channelId, action.userId)
+//        .then((channel) {
+//      store.dispatch(SelectChannel(
+//          channel: channel, groupId: action.groupId, userId: action.userId));
+//    }).catchError((error) {
+//      Logger.e(
+//        "Failed to fetch and select channel",
+//        e: error,
+//        s: StackTrace.current,
+//      );
+//    });
   };
 }
 
@@ -76,30 +74,30 @@ void Function(
   LeaveChannelAction action,
   NextDispatcher next,
 ) _leaveChannel(
-  ChannelRepository channelsRepository,
+
 ) {
   return (store, action, next) async {
     next(action);
     await _leaveChannelInternal(
-      channelsRepository: channelsRepository,
-      groupId: action.groupId,
-      channelId: action.channel.id,
-      userId: action.userId,
-      store: store,
+//      channelsRepository: channelsRepository,
+//      groupId: action.groupId,
+//      channelId: action.channel.id,
+//      userId: action.userId,
+//      store: store,
     );
   };
 }
 
 Future<void> _leaveChannelInternal({
-  @required ChannelRepository channelsRepository,
+//  @required ChannelRepository channelsRepository,
   @required String groupId,
   @required String channelId,
   @required String userId,
   @required Store<AppState> store,
 }) async {
   try {
-    await channelsRepository.leaveChannel(groupId, channelId, userId);
-    store.dispatch(LeftChannelAction(groupId, channelId, userId));
+//    await channelsRepository.leaveChannel(groupId, channelId, userId);
+//    store.dispatch(LeftChannelAction(groupId, channelId, userId));
   } catch (e) {
     Logger.e("Failed to leave channel", e: e, s: StackTrace.current);
   }
@@ -108,14 +106,15 @@ Future<void> _leaveChannelInternal({
 _listenToChannelUpdates(
     {Store<AppState> store,
     SelectChannel action,
-    ChannelRepository channelRepository}) {
+//    ChannelRepository channelRepository,
+    }) {
   selectedChannelSubscription?.cancel();
   // ignore: cancel_subscriptions
-  selectedChannelSubscription = channelRepository
-      .getStreamForChannel(action.groupId, action.channel.id, action.userId)
-      .listen((updatedChannel) {
-    store.dispatch(OnUpdatedChannelAction(action.groupId, updatedChannel));
-  });
+//  selectedChannelSubscription = channelRepository
+//      .getStreamForChannel(action.groupId, action.channel.id, action.userId)
+//      .listen((updatedChannel) {
+//    store.dispatch(OnUpdatedChannelAction(action.groupId, updatedChannel));
+//  });
 }
 
 /// Does two things:
@@ -129,23 +128,24 @@ void Function(
   SelectChannel action,
   NextDispatcher next,
 ) _markChannelReadAndListenToChannelUpdates(
-    ChannelRepository channelRepository) {
+//    ChannelRepository channelRepository,
+    ) {
   return (store, action, next) {
     next(action);
 
     try {
       if (action.channel.users.any((u) => u.id == action.userId)) {
-        channelRepository
-            .markChannelRead(action.groupId, action.channel.id, action.userId)
-            .then((_) {
-          _listenToChannelUpdates(
-              action: action,
-              store: store,
-              channelRepository: channelRepository);
-        });
+//        channelRepository
+//            .markChannelRead(action.groupId, action.channel.id, action.userId)
+//            .then((_) {
+//          _listenToChannelUpdates(
+//              action: action,
+//              store: store,
+//              channelRepository: channelRepository);
+//        });
       } else {
-        _listenToChannelUpdates(
-            action: action, store: store, channelRepository: channelRepository);
+//        _listenToChannelUpdates(
+//            action: action, store: store, channelRepository: channelRepository);
       }
     } catch (e) {
       Logger.e("Failed to mark as read", e: e, s: StackTrace.current);
@@ -158,24 +158,24 @@ void Function(
   JoinChannelAction action,
   NextDispatcher next,
 ) _joinChannel(
-  ChannelRepository channelsRepository,
+//  ChannelRepository channelsRepository,
 ) {
   return (store, action, next) async {
     next(action);
-    try {
-      final channel = await channelsRepository.joinChannel(
-        action.groupId,
-        action.channel,
-        action.user.uid,
-      );
-      store.dispatch(JoinedChannelAction(
-        action.groupId,
-        channel,
-      ));
-    } catch (error) {
-      Logger.e("Failed join channel", e: error, s: StackTrace.current);
-      store.dispatch(JoinChannelFailedAction());
-    }
+//    try {
+//      final channel = await channelsRepository.joinChannel(
+//        action.groupId,
+//        action.channel,
+//        action.user.uid,
+//      );
+//      store.dispatch(JoinedChannelAction(
+//        action.groupId,
+//        channel,
+//      ));
+//    } catch (error) {
+//      Logger.e("Failed join channel", e: error, s: StackTrace.current);
+//      store.dispatch(JoinChannelFailedAction());
+//    }
   };
 }
 
@@ -184,37 +184,37 @@ void Function(
   LoadChannels action,
   NextDispatcher next,
 ) _listenToChannels(
-  ChannelRepository channelsRepository,
+//  ChannelRepository channelsRepository,
 ) {
   return (store, action, next) {
     next(action);
-    listOfChannelsSubscription?.cancel();
-    // ignore: cancel_subscriptions
-    listOfChannelsSubscription = channelsRepository
-        .getChannelsStream(action.groupId, store.state.user.uid)
-        .listen((channels) {
-      if (channels.isNotEmpty) {
-        store.dispatch(OnChannelsLoaded(action.groupId, channels));
-
-        final selectedChannel = getSelectedChannel(store.state);
-
-        // If the selected channel is null
-        // Or the selected channel does NOT belong to this group
-        //  (e.g. user selected a different group)
-        if (selectedChannel == null ||
-            !_isChannelInList(channels, selectedChannel)) {
-          // Select a channel based on this logic
-          final channel = _pickChannelToSelect(store, action, channels);
-          if (channel != null) {
-            store.dispatch(SelectChannel(
-                previousChannelId: null,
-                channel: channel,
-                groupId: action.groupId,
-                userId: store.state.user.uid));
-          }
-        }
-      }
-    });
+//    listOfChannelsSubscription?.cancel();
+//    // ignore: cancel_subscriptions
+//    listOfChannelsSubscription = channelsRepository
+//        .getChannelsStream(action.groupId, store.state.user.uid)
+//        .listen((channels) {
+//      if (channels.isNotEmpty) {
+//        store.dispatch(OnChannelsLoaded(action.groupId, channels));
+//
+//        final selectedChannel = getSelectedChannel(store.state);
+//
+//        // If the selected channel is null
+//        // Or the selected channel does NOT belong to this group
+//        //  (e.g. user selected a different group)
+//        if (selectedChannel == null ||
+//            !_isChannelInList(channels, selectedChannel)) {
+//          // Select a channel based on this logic
+//          final channel = _pickChannelToSelect(store, action, channels);
+//          if (channel != null) {
+//            store.dispatch(SelectChannel(
+//                previousChannelId: null,
+//                channel: channel,
+//                groupId: action.groupId,
+//                userId: store.state.user.uid));
+//          }
+//        }
+//      }
+//    });
   };
 }
 
@@ -253,39 +253,39 @@ void Function(
   CreateChannel action,
   NextDispatcher next,
 ) _createChannel(
-  ChannelRepository channelsRepository,
+//  ChannelRepository channelsRepository,
   GlobalKey<NavigatorState> navigatorKey,
 ) {
   return (store, action, next) async {
     next(action);
 
-    try {
+//    try {
       // Create Channel
-      final createdChannel = await channelsRepository.createChannel(
-        store.state.selectedGroupId,
-        action.channel,
-        [store.state.user.uid, ...action.invitedIds.toList()],
-        store.state.user.uid,
-      );
-
-      store.dispatch(OnChannelCreated(createdChannel));
-
-      // Select the newly created channel.
-      // Adding delay to allow backend to add invited members
-      Future.delayed(const Duration(milliseconds: 1000), () {
-        store.dispatch(SelectChannel(
-          previousChannelId: store.state.channelState.selectedChannel,
-          channel: createdChannel,
-          groupId: store.state.selectedGroupId,
-          userId: store.state.user.uid,
-        ));
-      });
-
-      action.completer.complete();
-    } catch (error) {
-      Logger.e("Failed create channel", e: error, s: StackTrace.current);
-      action.completer.completeError(error);
-    }
+//      final createdChannel = await channelsRepository.createChannel(
+//        store.state.selectedGroupId,
+//        action.channel,
+//        [store.state.user.uid, ...action.invitedIds.toList()],
+//        store.state.user.uid,
+//      );
+//
+//      store.dispatch(OnChannelCreated(createdChannel));
+//
+//       Select the newly created channel.
+//       Adding delay to allow backend to add invited members
+//      Future.delayed(const Duration(milliseconds: 1000), () {
+//        store.dispatch(SelectChannel(
+//          previousChannelId: store.state.channelState.selectedChannel,
+//          channel: createdChannel,
+//          groupId: store.state.selectedGroupId,
+//          userId: store.state.user.uid,
+//        ));
+//      });
+//
+//      action.completer.complete();
+//    } catch (error) {
+//      Logger.e("Failed create channel", e: error, s: StackTrace.current);
+//      action.completer.completeError(error);
+//    }
   };
 }
 
@@ -294,23 +294,23 @@ void Function(
   EditChannelAction action,
   NextDispatcher next,
 ) _editChannel(
-  ChannelRepository channelsRepository,
+//  ChannelRepository channelsRepository,
   GlobalKey<NavigatorState> navigatorKey,
 ) {
   return (store, action, next) async {
     next(action);
 
-    try {
-      await channelsRepository.updateChannel(
-        store.state.selectedGroupId,
-        action.channel,
-      );
-      store.dispatch(
-          OnUpdatedChannelAction(store.state.selectedGroupId, action.channel));
-      action.completer.complete();
-    } catch (error) {
-      action.completer.completeError(error);
-    }
+//    try {
+//      await channelsRepository.updateChannel(
+//        store.state.selectedGroupId,
+//        action.channel,
+//      );
+//      store.dispatch(
+//          OnUpdatedChannelAction(store.state.selectedGroupId, action.channel));
+//      action.completer.complete();
+//    } catch (error) {
+//      action.completer.completeError(error);
+//    }
   };
 }
 
@@ -319,7 +319,7 @@ void Function(
   RsvpAction action,
   NextDispatcher next,
 ) _rsvp(
-  ChannelRepository channelsRepository,
+//  ChannelRepository channelsRepository,
 ) {
   return (store, action, next) async {
     try {
@@ -332,15 +332,15 @@ void Function(
       // Allow users to RSVP even when they are not members
       if (_userIsNotChannelMember(store) && _rsvpYesOrMaybe(action.rsvp)) {
         // That causes them to join the channel
-        final channel = await channelsRepository.joinChannel(
-          store.state.selectedGroupId,
-          getSelectedChannel(store.state),
-          store.state.user.uid,
-        );
-        store.dispatch(JoinedChannelAction(
-          store.state.selectedGroupId,
-          channel,
-        ));
+//        final channel = await channelsRepository.joinChannel(
+//          store.state.selectedGroupId,
+//          getSelectedChannel(store.state),
+//          store.state.user.uid,
+//        );
+//        store.dispatch(JoinedChannelAction(
+//          store.state.selectedGroupId,
+//          channel,
+//        ));
       }
 
       // Ignore when a user that is not member clicks on NO
@@ -348,20 +348,20 @@ void Function(
         return;
       }
 
-      await channelsRepository.rsvp(
-        store.state.selectedGroupId,
-        store.state.channelState.selectedChannel,
-        store.state.user.uid,
-        action.rsvp,
-      );
+//      await channelsRepository.rsvp(
+//        store.state.selectedGroupId,
+//        store.state.channelState.selectedChannel,
+//        store.state.user.uid,
+//        action.rsvp,
+//      );
 
       if (_rsvpNo(action.rsvp)) {
         await _leaveChannelInternal(
-          channelsRepository: channelsRepository,
-          groupId: store.state.selectedGroupId,
-          channelId: store.state.channelState.selectedChannel,
-          userId: store.state.user.uid,
-          store: store,
+//          channelsRepository: channelsRepository,
+//          groupId: store.state.selectedGroupId,
+//          channelId: store.state.channelState.selectedChannel,
+//          userId: store.state.user.uid,
+//          store: store,
         );
       }
 
@@ -388,21 +388,21 @@ void Function(
   InviteToChannelAction action,
   NextDispatcher next,
 ) _inviteToChannel(
-  ChannelRepository channelsRepository,
+//  ChannelRepository channelsRepository,
 ) {
   return (store, action, next) async {
     next(action);
-    try {
-      await channelsRepository.inviteToChannel(
-          groupId: store.state.selectedGroupId,
-          channel: action.channel,
-          members: action.users,
-          invitingUsername: store.state.user.name,
-          groupName: store.state.groups[store.state.selectedGroupId].name);
-      action.completer.complete();
-    } catch (error) {
-      Logger.e("Failed invite to channel", e: error, s: StackTrace.current);
-      action.completer.completeError(error);
-    }
+//    try {
+//      await channelsRepository.inviteToChannel(
+//          groupId: store.state.selectedGroupId,
+//          channel: action.channel,
+//          members: action.users,
+//          invitingUsername: store.state.user.name,
+//          groupName: store.state.groups[store.state.selectedGroupId].name);
+//      action.completer.complete();
+//    } catch (error) {
+//      Logger.e("Failed invite to channel", e: error, s: StackTrace.current);
+//      action.completer.completeError(error);
+//    }
   };
 }

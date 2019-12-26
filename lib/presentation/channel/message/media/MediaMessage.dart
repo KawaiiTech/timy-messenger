@@ -254,7 +254,7 @@ class MessageMedia extends StatelessWidget {
   /// use them to upload pictures again.
   void _retryPictureUpload(BuildContext context) {
     final store = StoreProvider.of<AppState>(context);
-    store.dispatch(DeleteMessage(message.id));
+//    store.dispatch(DeleteMessage(message.id));
     store.dispatch(NewMessageWithMultipleFilesAction(
       message.media.toList(),
       Platform.isAndroid,
