@@ -241,19 +241,19 @@ class _CreateChannelScreenState extends State<CreateChannelScreen> {
         );
       });
 
-      final provider = StoreProvider.of<AppState>(context);
-      provider.dispatch(
-        CreateChannel(
-          Channel((c) => c
-            ..type = ChannelType.TOPIC
-            ..name = _nameController.text
-            ..description = _purposeController.text ?? ""
-            ..visibility = _visibility
-            ..authorId = provider.state.user.uid),
-          BuiltList<String>(invitedIds),
-          completer,
-        ),
-      );
+//      final provider = StoreProvider.of<AppState>(context);
+//      provider.dispatch(
+//        CreateChannel(
+//          Channel((c) => c
+//            ..type = ChannelType.TOPIC
+//            ..name = _nameController.text
+//            ..description = _purposeController.text ?? ""
+//            ..visibility = _visibility
+//            ..authorId = provider.state.user.uid),
+//          BuiltList<String>(invitedIds),
+//          completer,
+//        ),
+//      );
     }
   }
 

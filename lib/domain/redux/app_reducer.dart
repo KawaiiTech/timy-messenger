@@ -22,9 +22,9 @@ final appReducer = combineReducers<AppState>([
   TypedReducer<AppState, SelectGroup>(_onSelectGroup),
   ...authReducers,
   ...userReducers,
-  ...calendarReducer,
-  ...channelReducers,
-  ...messageReducers,
+//  ...calendarReducer,
+//  ...channelReducers,
+//  ...messageReducers,
   ...pushReducers,
   ...uiReducers,
 ]);

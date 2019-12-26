@@ -71,8 +71,8 @@ class Reaction extends StatelessWidget {
       child: InkWell(
         child: child,
         onTap: () {
-          StoreProvider.of<AppState>(context)
-              .dispatch(RemoveEmojiReaction(_messageId));
+//          StoreProvider.of<AppState>(context)
+//              .dispatch(RemoveEmojiReaction(_messageId));
         },
       ),
       color: Colors.transparent,
@@ -88,8 +88,8 @@ class Reaction extends StatelessWidget {
         child: child,
         onTap: () {
           // Tapping on any other emoji replaces the original
-          StoreProvider.of<AppState>(context)
-              .dispatch(EmojiReaction(_messageId, _emoji));
+//          StoreProvider.of<AppState>(context)
+//              .dispatch(EmojiReaction(_messageId, _emoji));
         },
       ),
       color: Colors.transparent,

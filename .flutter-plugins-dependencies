@@ -1,0 +1,1 @@
+{"_info":"// This is a generated file; do not edit or check into version control.","dependencyGraph":[{"name":"flutter_native_image","dependencies":[]},{"name":"image_picker","dependencies":[]},{"name":"media_picker_builder","dependencies":[]},{"name":"pinch_zoom_image","dependencies":[]},{"name":"url_launcher","dependencies":[]}]}

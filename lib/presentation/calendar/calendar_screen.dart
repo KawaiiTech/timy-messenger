@@ -197,14 +197,14 @@ class CalendarScreen extends StatelessWidget {
 
     provider.dispatch(SelectGroup(item.groupId));
 
-    provider.dispatch(
-      SelectChannelIdAction(
-        channelId: item.eventId,
-        groupId: provider.state.selectedGroupId,
-        userId: provider.state.user.uid,
-        previousChannelId: previousChannelId,
-      ),
-    );
+//    provider.dispatch(
+//      SelectChannelIdAction(
+//        channelId: item.eventId,
+//        groupId: provider.state.selectedGroupId,
+//        userId: provider.state.user.uid,
+//        previousChannelId: previousChannelId,
+//      ),
+//    );
   }
 
   _calendar(

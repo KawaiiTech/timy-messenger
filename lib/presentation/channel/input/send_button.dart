@@ -33,9 +33,9 @@ class SendButton extends StatelessWidget {
           : () {
               final text = _controller.text;
               _controller.clear();
-              StoreProvider.of<AppState>(context).dispatch(
-                SendMessage(text),
-              );
+//              StoreProvider.of<AppState>(context).dispatch(
+//                SendMessage(text),
+//              );
               MessagesScrollController.of(context).scrollController.animateTo(
                     0.0,
                     duration: Duration(milliseconds: 600),
