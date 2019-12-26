@@ -9,6 +9,9 @@ import "package:circles_app/model/in_app_notification.dart";
 import "package:circles_app/model/message.dart";
 import "package:circles_app/model/user.dart";
 
+import '../../model/message.dart';
+import '../../model/message.dart';
+
 part 'app_state.g.dart';
 
 /// This class holds the whole application state.
@@ -50,7 +53,7 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
 
   factory AppState.init() => AppState((a) => a
     ..user.name = "Lily"
-    ..user.uid = "uid"
+    ..user.uid = "user1"
     ..user.email = "e@mail.com"
     ..selectedGroupId = "groupid"
     ..groups.addAll({
@@ -61,25 +64,73 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
         ..abbreviation = "LL"
         ..channels.addAll(
           {
-            "channelid": Channel((c) => c
-              ..id = "channelid"
-              ..name = "Dogs are the best"
-              ..visibility = ChannelVisibility.OPEN
-              ..type = ChannelType.TOPIC
-              ..users.addAll([
-                ChannelUser((cu) => cu
-                  ..id = "uid"
-                  ..rsvp = RSVP.UNSET)
-              ])),
+            "channel1": _createChannel(),
+            "channel2": _createChannel2(),
           },
         ))
     })
     ..channelState = ChannelState.init().toBuilder()
-    ..channelState.selectedChannel = "channelid"
-    ..messagesOnScreen = ListBuilder()
-    ..groupUsers = ListBuilder()
+    ..channelState.selectedChannel = "channel1"
+    ..messagesOnScreen.addAll([
+      Message((m) => m
+        ..id = "1"
+        ..body = "When are going to the park?? 🐕"
+        ..authorId = "user1"
+        ..messageType = MessageType.USER),
+      Message((m) => m
+        ..id = "2"
+        ..body = "Good morning everyone! 😁"
+        ..authorId = "user2"
+        ..messageType = MessageType.USER),
+    ])
+    ..groupUsers.addAll([_user(), _user2()])
     ..userCalendar = ListBuilder()
     ..uiState = UiState().toBuilder());
+
+  static User _user() {
+    return User((u) => u
+      ..name = "Lily"
+      ..uid = "user1"
+      ..email = "e@e.com");
+  }
+
+  static User _user2() {
+    return User((u) => u
+      ..name = "Coco"
+      ..uid = "user2"
+      ..email = "e@e.com");
+  }
+
+  static Channel _createChannel() {
+    return Channel((c) => c
+      ..id = "channel1"
+      ..name = "Dogs are the best"
+      ..visibility = ChannelVisibility.OPEN
+      ..type = ChannelType.TOPIC
+      ..hasUpdates = false
+      ..users.addAll([
+        ChannelUser((cu) => cu
+          ..id = "user1"
+          ..rsvp = RSVP.UNSET),
+        ChannelUser((cu) => cu
+          ..id = "user2"
+          ..rsvp = RSVP.UNSET),
+      ]));
+  }
+
+  static Channel _createChannel2() {
+    return Channel((c) => c
+      ..id = "channel2"
+      ..name = "Cute Animals"
+      ..visibility = ChannelVisibility.OPEN
+      ..type = ChannelType.TOPIC
+      ..hasUpdates = false
+      ..users.addAll([
+        ChannelUser((cu) => cu
+          ..id = "user1"
+          ..rsvp = RSVP.UNSET)
+      ]));
+  }
 
   AppState clear() {
     // keep the temporal fcm token even when clearing state
