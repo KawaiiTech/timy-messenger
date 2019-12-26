@@ -33,7 +33,7 @@ abstract class ChannelListViewModel
     _filterIrrelevantChannel(channels, user);
 
     final updatedChannels = channels
-        .where((c) => c.users.any((u) => u.id == user.uid) && c.hasUpdates)
+        .where((c) => c.users.any((u) => u.id == user.uid) && (c.hasUpdates ?? false))
         .toList();
 
     final list = [
@@ -74,7 +74,7 @@ abstract class ChannelListViewModel
         .where((c) =>
             c.type == ChannelType.TOPIC &&
             c.users.any((u) => u.id == userId) &&
-            (!c.hasUpdates || c.hasUpdates == null))
+            (c.hasUpdates == null || !c.hasUpdates))
         .toList();
 
     _sortChannelsByName(readChannels);

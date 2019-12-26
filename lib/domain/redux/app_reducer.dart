@@ -2,15 +2,16 @@ import "package:built_collection/built_collection.dart";
 import "package:circles_app/domain/redux/app_actions.dart";
 import "package:circles_app/domain/redux/app_state.dart";
 import "package:circles_app/domain/redux/authentication/auth_reducer.dart";
-import "package:circles_app/domain/redux/calendar/calendar_reducer.dart";
-import "package:circles_app/domain/redux/channel/channel_reducer.dart";
 import "package:circles_app/domain/redux/ui/ui_reducer.dart";
 import "package:circles_app/model/channel_state.dart";
-import "package:circles_app/domain/redux/message/message_reducer.dart";
 import "package:circles_app/domain/redux/push/push_reducer.dart";
 import "package:circles_app/domain/redux/user/user_reducer.dart";
 import "package:circles_app/model/group.dart";
 import "package:redux/redux.dart";
+import "package:circles_app/domain/redux/calendar/calendar_reducer.dart";
+import "package:circles_app/domain/redux/channel/channel_reducer.dart";
+
+import 'message/message_reducer.dart';
 
 /// Reducers specify how the application"s state changes in response to actions
 /// sent to the store.
@@ -22,9 +23,9 @@ final appReducer = combineReducers<AppState>([
   TypedReducer<AppState, SelectGroup>(_onSelectGroup),
   ...authReducers,
   ...userReducers,
-//  ...calendarReducer,
-//  ...channelReducers,
-//  ...messageReducers,
+  ...calendarReducer,
+  ...channelReducers,
+  ...messageReducers,
   ...pushReducers,
   ...uiReducers,
 ]);

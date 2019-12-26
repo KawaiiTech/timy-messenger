@@ -20,7 +20,7 @@ abstract class GroupListViewModel
       _$GroupListViewModel;
 
   static GroupListViewModel fromStore(Store<AppState> store) {
-    final unreadGroupsMap = store.state.user.unreadUpdates.toMap();
+    final unreadGroupsMap = store.state.user.unreadUpdates?.toMap() ?? {};
     unreadGroupsMap.removeWhere((key, value) => value == null || value.length == 0);
 
     return GroupListViewModel((c) => c
