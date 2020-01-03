@@ -45,7 +45,7 @@ class MessageItem extends StatelessWidget {
       child: InkWell(
         child: Column(
           children: <Widget>[
-            SizedBox(height: AppTheme.appMargin),
+//            SizedBox(height: AppTheme.appMargin),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -63,7 +63,7 @@ class MessageItem extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(height: 8.0),
+//                      SizedBox(height: 8.0),
                       _buildBody(),
                       ReactionSection(
                         message: _message,
@@ -76,7 +76,7 @@ class MessageItem extends StatelessWidget {
                 SizedBox(width: AppTheme.appMargin)
               ],
             ),
-            SizedBox(height: AppTheme.appMargin),
+//            SizedBox(height: AppTheme.appMargin),
           ],
         ),
         onTap: () {
@@ -113,37 +113,47 @@ class MessageItem extends StatelessWidget {
   }
 
   Widget _buildAvatar(context) {
-    return InkWell(
-      onTap: () {
-        if (_author != null) {
-          Navigator.of(context).pushNamed(Routes.user, arguments: _author.uid);
-        }
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: AppTheme.appMargin,
-          right: AppTheme.appMargin,
-        ),
-        child: UserAvatar(
-          user: _author,
+    return Padding(
+      padding: const EdgeInsets.only(top: 12.0),
+      child: InkWell(
+        onTap: () {
+          if (_author != null) {
+            Navigator.of(context).pushNamed(Routes.user, arguments: _author.uid);
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: AppTheme.appMargin,
+            right: AppTheme.appMargin,
+          ),
+          child: UserAvatar(
+            user: _author,
+          ),
         ),
       ),
     );
   }
 
   Widget _authorName(context) {
-    return Flexible(
-      child: InkWell(
-        onTap: () {
-          if (_author != null) {
-            Navigator.of(context)
-                .pushNamed(Routes.user, arguments: _author.uid);
-          }
-        },
-        child: Text(
-          _author?.name ?? CirclesLocalizations.of(context).deletedUser,
-          overflow: TextOverflow.ellipsis,
-          style: AppTheme.messageAuthorNameTextStyle,
+    return InkWell(
+      onTap: () {
+        if (_author != null) {
+          Navigator.of(context)
+              .pushNamed(Routes.user, arguments: _author.uid);
+        }
+      },
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minHeight: kMinInteractiveDimension,
+          minWidth: kMinInteractiveDimension,
+        ),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            _author?.name ?? CirclesLocalizations.of(context).deletedUser,
+            overflow: TextOverflow.ellipsis,
+            style: AppTheme.messageAuthorNameTextStyle,
+          ),
         ),
       ),
     );
