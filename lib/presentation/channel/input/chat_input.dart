@@ -77,6 +77,7 @@ class _ChatInputState extends State<ChatInput> {
                           child: TextField(
                             maxLines: 6,
                             minLines: 1,
+                            textCapitalization: TextCapitalization.sentences,
                             controller: _controller,
                             style: AppTheme.inputTextStyle,
                             cursorColor: AppTheme.colorTextEnabled,

@@ -8,7 +8,6 @@ import Flutter
     didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?
   ) -> Bool {
 
-    UploadService.shared.configureFlutterHandler(flutterBinaryMessenger: window.rootViewController as! FlutterBinaryMessenger)
     PermissionService.shared.configureFlutterHandler(flutterBinaryMessenger: window.rootViewController as! FlutterBinaryMessenger)
     
     GeneratedPluginRegistrant.register(with: self)
