@@ -20,28 +20,33 @@ class SendButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
-      child: Text(
-        CirclesLocalizations.of(context).channelInputSend,
-        style: AppTheme.buttonTextStyle,
-      ),
-      padding: EdgeInsets.all(16),
-      disabledTextColor: AppTheme.colorTextDisabled,
-      textColor: AppTheme.colorTextEnabled,
-      onPressed: !_enabled
-          ? null
-          : () {
-              final text = _controller.text;
-              _controller.clear();
+    return Semantics(
+      label: "Send Message",
+      button: true,
+      enabled: _enabled,
+      child: FlatButton(
+        child: Text(
+          CirclesLocalizations.of(context).channelInputSend,
+          style: AppTheme.buttonTextStyle,
+        ),
+        padding: EdgeInsets.all(16),
+        disabledTextColor: AppTheme.colorTextDisabled,
+        textColor: AppTheme.colorTextEnabled,
+        onPressed: !_enabled
+            ? null
+            : () {
+                final text = _controller.text;
+                _controller.clear();
 //              StoreProvider.of<AppState>(context).dispatch(
 //                SendMessage(text),
 //              );
-              MessagesScrollController.of(context).scrollController.animateTo(
-                    0.0,
-                    duration: Duration(milliseconds: 600),
-                    curve: Curves.fastOutSlowIn,
-                  );
-            },
+                MessagesScrollController.of(context).scrollController.animateTo(
+                      0.0,
+                      duration: Duration(milliseconds: 600),
+                      curve: Curves.fastOutSlowIn,
+                    );
+              },
+      ),
     );
   }
 }

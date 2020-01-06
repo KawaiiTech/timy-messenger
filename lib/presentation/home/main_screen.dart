@@ -37,23 +37,25 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, MainScreenViewModel>(
-      distinct: true,
-      converter: MainScreenViewModel.fromStore,
-      builder: (context, vm) {
+    return SemanticsDebugger(
+      child: StoreConnector<AppState, MainScreenViewModel>(
+        distinct: true,
+        converter: MainScreenViewModel.fromStore,
+        builder: (context, vm) {
 //        if (vm.hasData) {
-          return SlideOutScreen(
-            main: HomeScreen(
+            return SlideOutScreen(
+              main: HomeScreen(
+                sideOpenController: _sideOpenController,
+              ),
+              side: _buildDetails(vm),
               sideOpenController: _sideOpenController,
-            ),
-            side: _buildDetails(vm),
-            sideOpenController: _sideOpenController,
-          );
+            );
 //        } else {
 //           TODO: Proper empty state screen
 //          return Scaffold();
 //        }
-      },
+        },
+      ),
     );
   }
 

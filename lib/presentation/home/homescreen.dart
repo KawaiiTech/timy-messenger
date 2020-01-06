@@ -26,14 +26,17 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        Scaffold(
-          key: _scaffoldKey,
-          appBar: HomeAppBar(
-            scaffoldKey: _scaffoldKey,
-            sideOpenController: widget.sideOpenController,
+        Semantics(
+          label: "Chat Screen",
+          child: Scaffold(
+            key: _scaffoldKey,
+            appBar: HomeAppBar(
+              scaffoldKey: _scaffoldKey,
+              sideOpenController: widget.sideOpenController,
+            ),
+            body: ChannelScreen(),
+            drawer: CirclesDrawer(),
           ),
-          body: ChannelScreen(),
-          drawer: CirclesDrawer(),
         ),
         StoreConnector<AppState, InAppNotificationViewModel>(
           builder: (BuildContext context, InAppNotificationViewModel vm) {

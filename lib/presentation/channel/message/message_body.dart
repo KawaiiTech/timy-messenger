@@ -26,19 +26,21 @@ class MessageBody extends StatelessWidget {
       humanize: true,
       linkTypes: null,
     );
-    return RichText(
-      textScaleFactor: MediaQuery.of(context).textScaleFactor,
-      text: buildTextSpan(
-        elements,
-        style: AppTheme.messageTextStyle,
-        onOpen: (link) async {
-          if (await canLaunch(link.url)) {
-            await launch(link.url);
-          } else {
-            throw "Could not launch $link";
-          }
-        },
-        linkStyle: AppTheme.linkTextStyle,
+    return ExcludeSemantics(
+      child: RichText(
+        textScaleFactor: MediaQuery.of(context).textScaleFactor,
+        text: buildTextSpan(
+          elements,
+          style: AppTheme.messageTextStyle,
+          onOpen: (link) async {
+            if (await canLaunch(link.url)) {
+              await launch(link.url);
+            } else {
+              throw "Could not launch $link";
+            }
+          },
+          linkStyle: AppTheme.linkTextStyle,
+        ),
       ),
     );
   }

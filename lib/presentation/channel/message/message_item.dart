@@ -14,6 +14,7 @@ import "package:circles_app/theme.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:transparent_image/transparent_image.dart";
+import "package:intl/intl.dart";
 
 class MessageItem extends StatelessWidget {
   const MessageItem({
@@ -40,58 +41,63 @@ class MessageItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        child: Column(
-          children: <Widget>[
+    return Semantics(
+      label:
+          "Message from ${_author.name}: ${_message.body} "
+              "at ${DateFormat.Hm().format(_message.timestamp)}",
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          child: Column(
+            children: <Widget>[
 //            SizedBox(height: AppTheme.appMargin),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                _buildAvatar(context),
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          _authorName(context),
-                          MessageTimestamp(
-                            message: _message,
-                            currentUser: _currentUser,
-                          ),
-                        ],
-                      ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  _buildAvatar(context),
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            _authorName(context),
+                            MessageTimestamp(
+                              message: _message,
+                              currentUser: _currentUser,
+                            ),
+                          ],
+                        ),
 //                      SizedBox(height: 8.0),
-                      _buildBody(),
-                      ReactionSection(
-                        message: _message,
-                        currentUser: _currentUser,
-                        userIsMember: _userIsMember,
-                      ),
-                    ],
+                        _buildBody(),
+                        ReactionSection(
+                          message: _message,
+                          currentUser: _currentUser,
+                          userIsMember: _userIsMember,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(width: AppTheme.appMargin)
-              ],
-            ),
+                  SizedBox(width: AppTheme.appMargin)
+                ],
+              ),
 //            SizedBox(height: AppTheme.appMargin),
-          ],
+            ],
+          ),
+          onTap: () {
+            // On iOS, taping on the chat section dismisses keyboard
+            if (Platform.isIOS) {
+              FocusScope.of(context).requestFocus(FocusNode());
+            }
+          },
+          onLongPress: () {
+            if (_currentUser.uid != _author?.uid &&
+                !_message.reactions.containsKey(_currentUser.uid) &&
+                _userIsMember) {
+              showEmojiPicker(context, _message);
+            }
+          },
         ),
-        onTap: () {
-          // On iOS, taping on the chat section dismisses keyboard
-          if (Platform.isIOS) {
-            FocusScope.of(context).requestFocus(FocusNode());
-          }
-        },
-        onLongPress: () {
-          if (_currentUser.uid != _author?.uid &&
-              !_message.reactions.containsKey(_currentUser.uid) &&
-              _userIsMember) {
-            showEmojiPicker(context, _message);
-          }
-        },
       ),
     );
   }
@@ -118,7 +124,8 @@ class MessageItem extends StatelessWidget {
       child: InkWell(
         onTap: () {
           if (_author != null) {
-            Navigator.of(context).pushNamed(Routes.user, arguments: _author.uid);
+            Navigator.of(context)
+                .pushNamed(Routes.user, arguments: _author.uid);
           }
         },
         child: Padding(
@@ -138,8 +145,7 @@ class MessageItem extends StatelessWidget {
     return InkWell(
       onTap: () {
         if (_author != null) {
-          Navigator.of(context)
-              .pushNamed(Routes.user, arguments: _author.uid);
+          Navigator.of(context).pushNamed(Routes.user, arguments: _author.uid);
         }
       },
       child: ConstrainedBox(

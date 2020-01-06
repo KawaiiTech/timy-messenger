@@ -118,37 +118,40 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   Widget _hamburger(HomeAppBarViewModel vm) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: () {
-          scaffoldKey.currentState.openDrawer();
-        },
-        child: Container(
-          width: AppTheme.appBarSize,
-          height: AppTheme.appBarSize,
-          child: Center(
-            child: Stack(
-              overflow: Overflow.visible,
-              children: <Widget>[
-                Image.asset(
-                  "assets/graphics/menu_icon.png",
-                  width: 25,
-                  height: 25,
-                ),
-                Visibility(
-                  visible: vm.hasUpdatedChannelsInGroup,
-                  child: Positioned(
-                    top: -3,
-                    right: -5,
-                    height: 12,
-                    width: 12,
-                    child: Image.asset(
-                      "assets/graphics/updates_indicator_white.png",
+    return Semantics(
+      label: "Menu",
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            scaffoldKey.currentState.openDrawer();
+          },
+          child: Container(
+            width: AppTheme.appBarSize,
+            height: AppTheme.appBarSize,
+            child: Center(
+              child: Stack(
+                overflow: Overflow.visible,
+                children: <Widget>[
+                  Image.asset(
+                    "assets/graphics/menu_icon.png",
+                    width: 25,
+                    height: 25,
+                  ),
+                  Visibility(
+                    visible: vm.hasUpdatedChannelsInGroup,
+                    child: Positioned(
+                      top: -3,
+                      right: -5,
+                      height: 12,
+                      width: 12,
+                      child: Image.asset(
+                        "assets/graphics/updates_indicator_white.png",
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
