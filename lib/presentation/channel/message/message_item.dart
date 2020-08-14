@@ -119,22 +119,25 @@ class MessageItem extends StatelessWidget {
   }
 
   Widget _buildAvatar(context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 12.0),
-      child: InkWell(
-        onTap: () {
-          if (_author != null) {
-            Navigator.of(context)
-                .pushNamed(Routes.user, arguments: _author.uid);
-          }
-        },
-        child: Padding(
-          padding: const EdgeInsets.only(
-            left: AppTheme.appMargin,
-            right: AppTheme.appMargin,
-          ),
-          child: UserAvatar(
-            user: _author,
+    return Semantics(
+      label: "${_author.name} avatar",
+      child: Padding(
+        padding: const EdgeInsets.only(top: 12.0),
+        child: InkWell(
+          onTap: () {
+            if (_author != null) {
+              Navigator.of(context)
+                  .pushNamed(Routes.user, arguments: _author.uid);
+            }
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: AppTheme.appMargin,
+              right: AppTheme.appMargin,
+            ),
+            child: UserAvatar(
+              user: _author,
+            ),
           ),
         ),
       ),

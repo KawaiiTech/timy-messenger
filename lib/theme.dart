@@ -205,11 +205,12 @@ class AppTheme {
     );
   }
 
-  static TextStyle get inputHintTextStyle {
+  static TextStyle inputHintTextStyle(BuildContext context) {
+    print(MediaQuery.of(context).highContrast);
     return TextStyle(
       fontSize: 16 * pixelMultiplier,
       fontFamily: fontFamilyEdmondsansRegular,
-      color: colorTextDisabled,
+      color: MediaQuery.of(context).highContrast ? Colors.black : colorTextDisabled,
     );
   }
 

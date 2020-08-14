@@ -13,15 +13,18 @@ import "package:image_picker/image_picker.dart";
 class AttachButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      padding: EdgeInsets.all(16),
-      icon: Image.asset(
-        "assets/graphics/input/icon_add_content.png",
-        scale: 2.5,
+    return Semantics(
+      label: "Attach",
+      child: IconButton(
+        padding: EdgeInsets.all(16),
+        icon: Image.asset(
+          "assets/graphics/input/icon_add_content.png",
+          scale: 2.5,
+        ),
+        onPressed: () {
+          _showDialogCameraOrGalleryCupertino(context);
+        },
       ),
-      onPressed: () {
-        _showDialogCameraOrGalleryCupertino(context);
-      },
     );
   }
 

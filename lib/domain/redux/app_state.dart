@@ -79,7 +79,7 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
         ..messageType = MessageType.USER),
       Message((m) => m
         ..id = "2"
-        ..body = "Good morning everyone! 😁"
+        ..body = "Good morning everyone! 😁 http://example.com"
         ..authorId = "user2"
         ..messageType = MessageType.USER),
     ])

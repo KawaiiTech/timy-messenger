@@ -74,18 +74,22 @@ class _ChatInputState extends State<ChatInput> {
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 8.0, top: 8.0),
-                          child: TextField(
-                            maxLines: 6,
-                            minLines: 1,
-                            textCapitalization: TextCapitalization.sentences,
-                            controller: _controller,
-                            style: AppTheme.inputTextStyle,
-                            cursorColor: AppTheme.colorTextEnabled,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: CirclesLocalizations.of(context)
-                                  .channelInputHint,
-                              hintStyle: AppTheme.inputHintTextStyle,
+                          child: Semantics(
+                            label: "Message input",
+                            readOnly: false,
+                            child: TextField(
+                              maxLines: 6,
+                              minLines: 1,
+                              textCapitalization: TextCapitalization.sentences,
+                              controller: _controller,
+                              style: AppTheme.inputTextStyle,
+                              cursorColor: AppTheme.colorTextEnabled,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: CirclesLocalizations.of(context)
+                                    .channelInputHint,
+                                hintStyle: AppTheme.inputHintTextStyle(context),
+                              ),
                             ),
                           ),
                         ),

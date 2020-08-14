@@ -50,20 +50,24 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   Visibility _options(HomeAppBarViewModel vm) {
     return Visibility(
         visible: vm.memberOfChannel,
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: () {
-              sideOpenController.value = true;
-            },
-            child: Container(
-              width: AppTheme.appBarSize,
-              height: AppTheme.appBarSize,
-              child: Center(
-                child: Image.asset(
-                  "assets/graphics/menu_more_icon.png",
-                  width: 28,
-                  height: 28,
+        child: Semantics(
+          label: "Details",
+          button: true,
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                sideOpenController.value = true;
+              },
+              child: Container(
+                width: AppTheme.appBarSize,
+                height: AppTheme.appBarSize,
+                child: Center(
+                  child: Image.asset(
+                    "assets/graphics/menu_more_icon.png",
+                    width: 28,
+                    height: 28,
+                  ),
                 ),
               ),
             ),
